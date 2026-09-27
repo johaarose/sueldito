@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de sueldo neto Perú | Sueldito Perú</title>
+  <meta name="description" content="Calcula gratis una estimación de tu sueldo neto mensual en Perú a partir de tu sueldo bruto y sistema de pensiones.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#2563eb">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_PE">
+  <meta property="og:title" content="Calculadora de sueldo neto Perú | Sueldito Perú">
+  <meta property="og:description" content="Estima cuánto recibirías de sueldo neto en Perú según tu sueldo bruto y sistema de pensiones.">
+  <meta name="twitter:card" content="summary">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sueldito Perú",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "es-PE",
+    "description": "Calculadora referencial de sueldo neto mensual en Perú."
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#f6f8fc;
+      --surface:#ffffff;
+      --text:#14213d;
+      --muted:#64748b;
+      --primary:#2563eb;
+      --primary-dark:#1d4ed8;
+      --border:#e2e8f0;
+      --soft:#eff6ff;
+      --shadow:0 18px 50px rgba(15,23,42,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 38%,#fff 100%);
+      color:var(--text);
+      line-height:1.5;
+    }
+    .wrap{width:min(980px,calc(100% - 32px));margin:auto}
+    header{
+      position:sticky;top:0;z-index:20;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(226,232,240,.9);
+    }
+    nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-size:23px;font-weight:900;letter-spacing:-.5px;color:var(--primary)}
+    .brand span{color:var(--text)}
+    .tagline{font-size:13px;color:var(--muted)}
+    .hero{text-align:center;padding:72px 0 26px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--soft);color:var(--primary-dark);
+      border:1px solid #dbeafe;border-radius:999px;
+      padding:7px 12px;font-size:13px;font-weight:800;margin-bottom:18px
+    }
+    h1{
+      max-width:760px;margin:0 auto;
+      font-size:clamp(36px,6vw,60px);line-height:1.02;
+      letter-spacing:-2.2px
+    }
+    .hero p{
+      max-width:670px;margin:18px auto 0;
+      color:var(--muted);font-size:clamp(16px,2.4vw,19px)
+    }
+    .calculator{
+      max-width:610px;margin:26px auto 60px;background:var(--surface);
+      border:1px solid rgba(226,232,240,.9);border-radius:24px;
+      padding:30px;box-shadow:var(--shadow)
+    }
+    .calculator h2{margin:0 0 6px;font-size:24px}
+    .calculator .intro{margin:0 0 24px;color:var(--muted);font-size:14px}
+    label{display:block;font-weight:800;margin:18px 0 8px}
+    .field{
+      display:flex;align-items:center;border:1px solid #cbd5e1;border-radius:12px;
+      background:#fff;overflow:hidden
+    }
+    .prefix{padding:0 0 0 15px;color:#475569;font-weight:700}
+    input,select{
+      width:100%;border:0;outline:0;background:#fff;
+      padding:15px;font-size:16px;color:var(--text)
+    }
+    select{border:1px solid #cbd5e1;border-radius:12px}
+    input:focus,select:focus{box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+    button{
+      width:100%;margin-top:24px;padding:16px;border:0;border-radius:12px;
+      background:var(--primary);color:#fff;font-size:16px;font-weight:900;
+      cursor:pointer;transition:.2s transform,.2s background
+    }
+    button:hover{background:var(--primary-dark);transform:translateY(-1px)}
+    button:active{transform:translateY(0)}
+    #resultado{
+      display:none;margin-top:24px;padding:22px;border-radius:16px;
+      background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid #dbeafe
+    }
+    .result-label{text-align:center;color:var(--muted);font-size:14px}
+    .monto{
+      text-align:center;font-size:clamp(36px,8vw,48px);
+      font-weight:950;color:var(--primary);letter-spacing:-1.4px;margin:4px 0 18px
+    }
+    .breakdown{display:grid;gap:10px}
+    .row{
+      display:flex;justify-content:space-between;gap:16px;
+      padding:10px 0;border-top:1px solid #dbeafe;font-size:14px
+    }
+    .row strong{white-space:nowrap}
+    .note{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.6}
+    .section{padding:30px 0 70px}
+    .section h2{text-align:center;font-size:32px;letter-spacing:-1px;margin:0 0 12px}
+    .section-lead{text-align:center;color:var(--muted);max-width:660px;margin:0 auto 28px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px}
+    .card .icon{font-size:28px}
+    .card h3{margin:12px 0 8px;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    .faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+    details{background:#fff;border:1px solid var(--border);border-radius:14px;padding:17px 18px}
+    summary{cursor:pointer;font-weight:800}
+    details p{margin:10px 0 0;color:var(--muted);font-size:14px}
+    .disclaimer{
+      max-width:760px;margin:0 auto 70px;padding:18px 20px;
+      background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;
+      color:#7c2d12;font-size:13px
+    }
+    footer{
+      border-top:1px solid var(--border);background:#fff;
+      text-align:center;color:#94a3b8;font-size:12px;padding:28px 16px
+    }
+    @media(max-width:720px){
+      .tagline{display:none}
+      .hero{padding-top:52px}
+      .calculator{padding:22px;border-radius:20px}
+      .grid{grid-template-columns:1fr}
+      h1{letter-spacing:-1.3px}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav aria-label="Navegación principal">
+      <div class="brand" aria-label="Sueldito Perú">Sueldito<span>.pe</span></div>
+      <div class="tagline">Herramientas simples para entender tu sueldo</div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="eyebrow">🇵🇪 Calculadora gratuita para Perú</div>
+    <h1>Calcula tu sueldo neto en Perú</h1>
+    <p>Ingresa tu sueldo bruto mensual y obtén una estimación rápida de cuánto recibirías luego del descuento de pensión.</p>
+  </section>
+
+  <section class="calculator" aria-labelledby="calc-title">
+    <h2 id="calc-title">Calculadora de sueldo neto</h2>
+    <p class="intro">El cálculo es referencial y utiliza la tasa seleccionada para estimar el descuento de pensión.</p>
+
+    <label for="bruto">Sueldo bruto mensual</label>
+    <div class="field">
+      <span class="prefix">S/</span>
+      <input id="bruto" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ej. 3500">
+    </div>
+
+    <label for="sistema">Sistema de pensiones</label>
+    <select id="sistema">
+      <option value="none">Sin descuento de pensión</option>
+      <option value="onp">ONP (13%)</option>
+      <option value="afp">AFP (estimación 12.5%)</option>
+    </select>
+
+    <button type="button" onclick="calcular()">Calcular mi sueldo neto</button>
+
+    <div id="resultado" aria-live="polite">
+      <div class="result-label">Tu sueldo neto estimado es</div>
+      <div class="monto" id="neto">S/ 0.00</div>
+      <div class="breakdown">
+        <div class="row"><span>Sueldo bruto</span><strong id="rBruto">S/ 0.00</strong></div>
+        <div class="row"><span>Descuento estimado de pensión</span><strong id="rPension">S/ 0.00</strong></div>
+      </div>
+      <div class="note">Esta calculadora no sustituye una boleta de pago ni una liquidación oficial. El resultado puede variar por comisión AFP, seguro, impuesto de quinta categoría, bonos, descuentos u otros conceptos.</div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <h2>¿Qué puedes calcular aquí?</h2>
+    <p class="section-lead">Una referencia simple para entender cómo cambia tu ingreso mensual luego del descuento de pensión.</p>
+    <div class="grid">
+      <article class="card">
+        <div class="icon">💰</div>
+        <h3>Sueldo neto estimado</h3>
+        <p>Parte de tu sueldo bruto y descuenta el porcentaje correspondiente a la opción seleccionada.</p>
+      </article>
+      <article class="card">
+        <div class="icon">🏦</div>
+        <h3>AFP u ONP</h3>
+        <p>Compara de forma referencial cómo impacta el descuento de pensión en tu ingreso mensual.</p>
+      </article>
+      <article class="card">
+        <div class="icon">⚡</div>
+        <h3>Resultado inmediato</h3>
+        <p>No necesitas registrarte ni ingresar datos personales. El cálculo se realiza en tu navegador.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <h2>Preguntas frecuentes</h2>
+    <p class="section-lead">Respuestas rápidas sobre la calculadora.</p>
+    <div class="faq">
+      <details>
+        <summary>¿Qué es el sueldo bruto?</summary>
+        <p>Es el monto de remuneración antes de aplicar descuentos y retenciones.</p>
+      </details>
+      <details>
+        <summary>¿El resultado es exacto?</summary>
+        <p>No. Es una estimación simple. Tu sueldo neto real puede variar según los conceptos que aparezcan en tu boleta.</p>
+      </details>
+      <details>
+        <summary>¿La calculadora guarda mi sueldo?</summary>
+        <p>No. El cálculo se realiza localmente en el navegador y esta página no solicita datos personales.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="disclaimer">
+      <strong>Importante:</strong> esta herramienta es informativa y referencial. Para decisiones tributarias, laborales o previsionales, revisa tu boleta de pago o consulta una fuente oficial.
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 Sueldito.pe · Calculadora de sueldo neto en Perú</footer>
+
+<script>
+  const money = new Intl.NumberFormat('es-PE', {
+    style:'currency',
+    currency:'PEN',
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+
+  function calcular(){
+    const bruto = Number(document.getElementById('bruto').value);
+    const sistema = document.getElementById('sistema').value;
+
+    if(!Number.isFinite(bruto) || bruto <= 0){
+      alert('Ingresa un sueldo bruto mayor a 0.');
+      document.getElementById('bruto').focus();
+      return;
+    }
+
+    let tasa = 0;
+    if(sistema === 'onp') tasa = 0.13;
+    if(sistema === 'afp') tasa = 0.125;
+
+    const pension = bruto * tasa;
+    const neto = bruto - pension;
+
+    document.getElementById('neto').textContent = money.format(neto);
+    document.getElementById('rBruto').textContent = money.format(bruto);
+    document.getElementById('rPension').textContent = money.format(pension);
+    document.getElementById('resultado').style.display = 'block';
+    document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('bruto').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') calcular();
+  });
+</script>
+</body>
+</html>
